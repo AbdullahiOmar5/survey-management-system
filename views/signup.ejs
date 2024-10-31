@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f2f2f2;
+        }
+
+        .signup-form {
+            width: 300px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .signup-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .signup-form label {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .signup-form input[type="text"],
+        .signup-form input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0 16px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .signup-form button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #2a2185;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .signup-form button:hover {
+            background-color: #2a2185;
+        }
+
+        .signin-btn {
+            margin-top: 10px;
+            background-color: #007BFF;
+        }
+
+        .signin-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-form">
+        <h2>Sign Up</h2>
+        
+        <form  id="siginup_form" action="/signup" method="post">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required>
+
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm Password" required>
+
+            <button type="submit">Sign Up</button>
+        </form>
+        <a href="/signin">
+            <button class="signin-btn">Sign In</button>
+        </a>
+    </div>
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+             $("#siginup_form").submit(function(event) {
+                 event.preventDefault(); // Prevent the form from submitting normally
+ 
+                 // check if passwords match
+
+                 var formData = {
+                     name: $("#name").val(),
+                     username: $("#username").val(),
+                     password: $("#password").val(),
+                     confirm_password: $("#confirm-password").val(),
+                 };
+ 
+                 $.ajax({
+                     type: "POST",
+                     url: "/signup",
+                     data: formData,
+                     dataType: "json",
+                     success: function(response) {
+                         if (response.success) {
+                             alert("Login successful!");
+                             window.location.href = "/home";
+                         } else {
+                             alert("Invalid login credentials.");
+                         }
+                     },
+                     error: function() {
+                         alert("An error occurred. Please try again.");
+                     }
+                 });
+             });
+         });
+ </script>
+
+
+</html>
