@@ -19,4 +19,4 @@ A web-based application for creating and managing surveys. This project allows u
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/AbdullahiOmar5/survey-management-system.git
