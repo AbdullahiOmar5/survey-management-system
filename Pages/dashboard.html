@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Admin Dashboard | Korsat X Parmaga</title>
+    <!-- ======= Styles ====== -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+    <!-- =============== Navigation ================ -->
+    <div class="container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="./dashboard.html">
+                        <span class="title system-name">Survey management system</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="./survey_management.html">
+                        <span class="icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </span>
+                        <span class="title">Survey management</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <span class="icon">
+                            <ion-icon name="chatbubble-outline"></ion-icon>
+                        </span>
+                        <span class="title">Response Analaysis</span>
+                    </a>
+                </li>
+
+            
+
+                <li>
+                    <a href="../Authonetication & authorization/signin.html">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ========================= Main ==================== -->
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="Search Surveys">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+
+                <div class="user">
+                    <img src="../assets/imgs/customer01.jpg" alt="">
+                </div>
+            </div>
+
+            <!-- ======================= Cards ================== -->
+            <div class="cardBox">
+                <div class="card">
+                    <div>
+                        <div class="numbers">0</div>
+                        <div class="cardName">Total Surveys</div>
+                    </div>
+
+                    <div class="iconBx">
+                        <ion-icon name="document-text-outline"></ion-icon>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <div class="numbers">0</div>
+                        <div class="cardName">Number Of Responses</div>
+                    </div>
+
+                    <div class="iconBx">
+                        <ion-icon name="chatbubble-outline"></ion-icon>
+
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <div class="numbers">0</div>
+                        <div class="cardName">Completion Rate</div>
+                    </div>
+
+                    <div class="iconBx">
+                        <ion-icon name="checkmark-done-outline"></ion-icon>
+
+                    </div>
+                </div>
+
+                
+            </div>
+
+            <!-- ================ Order Details List ================= -->
+            <div class="details">
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2>Recent Surveys</h2>
+                        <div class="sort">
+                            <label for="sort-options" class="sort-label">Sort by :</label>
+                            <select id="sort-options">
+                                <option value="name" class="options">Name</option>
+                                <option value="created-date" class="options">Created Date</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="list-of-surveys">
+                        <p>Exploring User Satisfaction: Service Feedback Survey</p>
+                        <p>Your Voice Matters: Annual Customer Satisfaction Survey</p>
+                        <p>Workplace Wellbeing: Employee Experience Survey</p>
+                        <p>Community Pulse: Gathering Insights for Better Engagement</p>
+                        <p>Product Feature Feedback: Help Us Improve!</p>
+                        <p>Future Focus: Trends and Needs in [Your Industry] Survey</p>
+                        <p>User Preferences Survey: Shaping the Future Together</p>
+                        <p>Service Quality Check: How Are We Doing?</p>
+                        <p>Innovation Insight: Ideas for Our Next Big Update</p>
+                        <p>Lifestyle & Habits: Understanding Our Audience Better</p>
+
+                    </div>
+
+                    
+                </div>
+
+                <!-- ================= New Customers ================ -->
+                
+
+    <!-- =========== Scripts =========  -->
+    <script src="assets/js/main.js"></script>
+
+    <!-- ====== ionicons ======= -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>
