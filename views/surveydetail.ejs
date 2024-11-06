@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= survey.title %></title>
+    <style>
+        *{
+            font-size: 18px;
+            font-family: "Ubuntu", sans-serif;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            
+        }
+        .main h1{
+            font-size: 30px;
+        }
+        .main{
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            font-size: 16px;
+            max-width: 70%;
+            min-width: 50%;
+        }
+        button {
+            background-color: #2a2185;
+            color: white;
+            cursor: pointer;
+            border: none;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #2a2185;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        button:hover{
+          background-color: #27206b;
+        }
+        .main p {
+            line-height: 25px;
+
+        }
+        .question-container p{
+            font-weight: bold;
+        }
+        
+        .responseDiv input[type="text"]{
+            width: 100%;
+            height: 30px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+
+        }
+        .responseDiv label input{
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .responseDiv label{
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1><%= survey.title %></h1>
+        <p><%= survey.description %></p>
+
+        <form action="/ress/new_response" method="POST">
+            <input type="hidden" name="survey_id" value="<%= survey._id %>">
+
+            <% question.forEach((item) => { %>
+                <div class="question-container">
+                    <p><%= item.question_text %></p>
+                    <input type="hidden" name="answers[<%= item._id %>][question_id]" value="<%= item._id %>">
+
+                    <% if (item.type === 'single-choice') { %>
+                        <div class="responseDiv">
+                            <% item.options.forEach((option, index) => { %>
+                                <label>
+                                    <input type="radio" name="answers[<%= item._id %>][answer_text]" value="<%= option %>">
+                                    <%= option %>
+                                </label><br>
+                            <% }); %>
+                        </div>
+                    <% } else if (item.type === 'open-ended') { %>
+                        <div class="responseDiv">
+                            <input type="text" name="answers[<%= item._id %>][answer_text]" placeholder="Enter your answer here">
+                        </div>
+                    <% } else if (item.type === 'description') { %>
+                        <div class="responseDiv">
+                            <textarea name="answers[<%= item._id %>][answer_text]" placeholder="Enter your description here"></textarea>
+                        </div>
+                    <% } %>
+                </div>
+            <% }); %>
+
+            <button type="submit">Submit</button>
+        </form>
+
+    </div>
+    
+</body>
+</html>

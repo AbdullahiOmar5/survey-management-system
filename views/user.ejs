@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Survey management system</title>
+  <style>
+    
+    :root {
+      --blue: #2a2185;
+      --white: #fff;
+      --gray: #f5f5f5;
+      --black1: #222;
+      --black2: #999;
+    }
+    body{
+      background-color: #f0f2f5;
+    }
+    *{
+      font-size: 18px;
+      font-family: "Ubuntu", sans-serif;
+    }
+    h1{
+      text-align: center;
+      font-size: 2em;
+    }
+    .display-flex{
+      display: flex;
+      justify-content: center;
+    }
+    
+
+    .main{
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr ;
+      grid-template-rows: 1fr;
+      grid-auto-rows: 1fr;
+      gap: 20px;
+      max-width: 80%;
+    }
+    
+    .container{
+      box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+      border-radius: 5px;
+      padding: 15px;
+      max-width: 80%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .survey-title{
+      font-weight: bold;
+    }
+    .container div .survey-description{
+      line-height: 30px;
+    }
+    button{
+      width: 100%;
+      padding: 10px;
+      background-color: #2a2185;
+      border: none;
+      border-radius: 5px;
+      color: white;
+    }
+
+    button:hover{
+      cursor: pointer;
+      background-color: #27206b;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Available Surveys</h1>
+  <div class="display-flex">
+    <div class="main" id="surveyList">
+    </div>
+
+  </div>
+  
+
+
+  <script>
+  function createSurveyHTML(surveytitle, descrip, id) {
+
+    const subContainerOne = document.createElement('div');
+    const subContainerTwo = document.createElement('div');
+    const mainContainer = document.createElement('div');
+
+    subContainerOne.className = 'sub-container-one';
+    subContainerTwo.className = 'sub-container-two';
+    mainContainer.className = 'container';
+    
+    // Create the main container div
+    const container = document.createElement('div');
+
+    // container.className = 'sub-container-one';
+
+    // Create and add the survey title
+    const title = document.createElement('p');
+    title.className = 'survey-title';
+    title.textContent = surveytitle;
+    subContainerOne.appendChild(title)
+    mainContainer.appendChild(subContainerOne);
+
+    // Create and add the survey description
+    const description = document.createElement('p');
+    description.className = 'survey-description';
+    description.textContent = descrip;
+    subContainerOne.appendChild(description);
+    
+
+    // Create the link with a button inside
+    // const link = document.createElement('a');
+    // link.href = `${id}`;
+    // const button = document.createElement('button');
+    // button.textContent = 'View survey';
+    // link.appendChild(button);
+
+    // Link with a button inside, directing to /survey/:id
+    const link = document.createElement('a');
+    link.href = `/survey/${id}`;
+    const button = document.createElement('button');
+    button.textContent = 'View survey';
+    link.appendChild(button);
+
+    // Append the link to the container
+    subContainerTwo.appendChild(link);
+    mainContainer.appendChild(subContainerTwo);
+
+    // Append the container to the body or another element
+    const maindiv = document.getElementById("surveyList")
+    
+    maindiv.appendChild(mainContainer);
+
+    
+}
+
+const GetSurveyData = async () => {
+  const dbResult = await fetch('http://localhost:3008/api/survey');
+  const jsonResult = await dbResult.json();
+  jsonResult.forEach( i => {
+    createSurveyHTML(i.title, i.description, i._id)
+  });
+  console.log('dbResult :>> ', jsonResult[0].title);
+  
+}
+// Call the function to add the HTML to the page
+GetSurveyData();
+  
+
+  </script>
+  
+  
+</body>
+</html>
+
+
+<!-- <div class="container">
+      <div class="sub-container-one">
+        <p class="survey-title">Customer Satisfaction Survey</p>
+        <p class="survey-description">Science is a way of discovering what's in the universe and how those things work today, how they worked in the past, and how they are likely to work in the</p>
+        <a href="#">
+          <button>View survey</button>
+        </a>
+      </div>
+  
+      <div class="sub-container-two">
+        <p class="survey-title">Customer Satisfaction Survey</p>
+        <p class="survey-description">Science is a way of discovering what's in the universe and how those things work today, how they worked in the past, and how they are likely to work in the</p>
+  
+        <a href="#">
+          <button>View survey</button>
+        </a>
+      </div>
+  
+      <div class="sub-container-three">
+        <p class="survey-title">Customer Satisfaction Survey</p>
+        <p class="survey-description">Science is a way of discovering what's in the universe and how those things work today, how they worked in the past, and how they are likely to work in the</p>
+  
+        <a href="#">
+          <button>View survey</button>
+        </a>
+  
+      </div>
+  
+      <div class="sub-container-four">
+        <p class="survey-title">Customer Satisfaction Survey</p>
+        <p class="survey-description">Science is a way of discovering what's in the universe and how those things work today, how they worked in the past, and how they are likely to work in the</p>
+  
+        <a href="#">
+          <button>View survey</button>
+        </a>
+  
+      </div>
+
+      <div class="sub-container-four">
+        <p class="survey-title">Customer Satisfaction Survey</p>
+        <p class="survey-description">Science is a way of discovering what's in the universe and how those things work today, how they worked in the past, and how they are likely to work in the</p>
+  
+        <a href="#">
+          <button>View survey</button>
+        </a>
+  
+      </div>
+
+      <div class="sub-container-four">
+        <p class="survey-title">Customer Satisfaction Survey</p>
+        <p class="survey-description">Science is a way of discovering what's in the universe and how those things work today, how they worked in the past, and how they are likely to work in the</p>
+  
+        <a href="#">
+          <button>View survey</button>
+        </a>
+  
+      </div>
+
+
+      <div class="sub-container-four">
+        <p class="survey-title">Customer Satisfaction Survey</p>
+        <p class="survey-description">Science is a way of discovering what's in the universe and how those things work today, how they worked in the past, and how they are likely to work in the</p>
+  
+        <a href="#">
+          <button>View survey</button>
+        </a>
+  
+      </div>
+
+
+      <div class="sub-container-four">
+        <p class="survey-title">Customer Satisfaction Survey</p>
+        <p class="survey-description">Science is a way of discovering what's in the universe and how those things work today, how they worked in the past, and how they are likely to work in the</p>
+        <a href="#">
+          <button>View survey</button>
+        </a>
+      </div>
+
+
+
+      <div class="sub-container-four">
+        <p class="survey-title">Customer Satisfaction Survey</p>
+        <p class="survey-description">Science is a way of discovering what's in the universe and how those things work today, how they worked in the past, and how they are likely to work in the</p>
+  
+        <a href="#">
+          <button>View survey</button>
+        </a>
+  
+      </div> -->

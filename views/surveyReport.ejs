@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= survey.title %></title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+    <style>
+      body{
+        font-size: 18px;
+      }
+      h1 {
+          color: #333;
+          border-bottom: 2px solid #ddd;
+          padding-bottom: 10px;
+          margin-bottom: 20px;
+          font-size: 1.5rem;
+          text-transform: uppercase;
+      }
+      h2 {
+          color: #444;
+          margin-top: 40px;
+          margin-bottom: 20px;
+          font-size: 1.2rem;
+          text-transform: uppercase;
+      }
+      h3 {
+          color: #2a2185;
+          margin-top: 30px;
+          margin-bottom: 10px;
+          text-transform: uppercase;
+
+      }
+      
+      tr{
+        border-radius: 5px 5px 0px 0px ;
+      }
+
+      
+      .details .recentOrders {
+        position: relative;
+        background: var(--white);
+        padding: 20px;
+        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+        border-radius: 20px;
+}
+
+      /* Basic table styling */
+        #example {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header styling */
+        #example thead th {
+            background-color: #2a2185;
+            color: white;
+            padding: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Table row styling */
+        #example tbody tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Cell padding */
+        #example td, #example th {
+            padding: 12px;
+        }
+
+        /* Alternate row background */
+        #example tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Hover effect for rows */
+        #example tbody tr:hover {
+            background-color: #f1f1f1;
+            transition: background-color 0.3s;
+        }
+
+        /* Name column styling */
+        #example td:first-child {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .dataTables_wrapper .dt-buttons {
+            margin-bottom: 10px;
+            margin-right: 15px; /* Space between buttons and search bar */
+        }
+
+        .dataTables_filter {
+
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+      .dataTables_wrapper .dataTables_filter input {
+          margin-left: 20px;
+          height: 40px;
+          border-radius: 5px;
+        }
+
+
+      
+      
+    </style>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="navigation">
+        <ul>
+            <li>
+                <a href="/dashboard">
+                    <span class="icon">
+                        <ion-icon name="person-circle-outline"></ion-icon>
+                    </span>
+                    <span class="title system-name">Admin Panel</span>
+                </a>
+            </li>
+            <li>
+                <a href="/dashboard">
+                    <span class="icon">
+                        <ion-icon name="home-outline"></ion-icon>
+                    </span>
+                    <span class="title">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/survey_management">
+                    <span class="icon">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </span>
+                    <span class="title">Survey management</span>
+                </a>
+            </li>
+            <li>
+                <a href="/response_analysis">
+                    <span class="icon">
+                        <ion-icon name="chatbubble-outline"></ion-icon>
+                    </span>
+                    <span class="title">Response Analysis</span>
+                </a>
+            </li>
+            <li>
+                <a href="/signup">
+                    <span class="icon">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                    </span>
+                    <span class="title">Sign Out</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main">
+        <div class="topbar">
+            <div class="toggle">
+                <ion-icon name="menu-outline"></ion-icon>
+            </div>
+            <div class="user">
+                <img src="" alt="">
+            </div>
+        </div>
+
+      
+                
+            
+        <!-- Now let's export the information-->
+        <div class="details">
+            <div class="recentOrders">
+                <h1><%= survey.title %></h1>
+                <p><%= survey.description %></p>
+                <h2>Responses</h2>
+                <table id="example">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Question</th>
+                            <th>Answer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% responses.forEach(response => { %>
+                            <% response.answers.forEach(answer => { %>
+                                <tr>
+                                    <td  data-label="Name"><%= response.user_id.name %> </td>
+                                    <td  data-label="Question"><%= answer.question_text %></td>
+                                    <td  data-label="Answer"><%= answer.answer_text %></td>
+                                </tr>
+                            <% }) %>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div> 
+        </div> 
+    </div>
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= survey.title %></title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+    <style>
+        /* Your existing CSS styles */
+    </style>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Your existing HTML structure -->
+
+    <!-- JavaScript Links -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+  <script>
+      $(document).ready(function() {
+          $('#example').DataTable({
+              dom: '<"dt-buttons"B><"dt-search"f>rtip',  // Customize dom layout
+              buttons: [
+                  'copy', 'csv', 'excel', 'pdf', 'print'
+              ],
+              responsive: true,
+              paging: false,
+              info: false,
+              searching: true,
+              ordering: true
+          });
+      });
+  </script>
+
+  <!-- Other scripts -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+</html>
+
+
+    <script>
+      // add hovered class to selected list item
+      let list = document.querySelectorAll(".navigation li");
+          
+      function activeLink() {
+      list.forEach((item) => {
+          item.classList.remove("hovered");
+      });
+      this.classList.add("hovered");
+      }
+      
+      list.forEach((item) => item.addEventListener("mouseover", activeLink));
+      
+      // Menu Toggle
+      let toggle = document.querySelector(".toggle");
+      let navigation = document.querySelector(".navigation");
+      let main = document.querySelector(".main");
+      
+      toggle.onclick = function () {
+      navigation.classList.toggle("active");
+      main.classList.toggle("active");
+      };
+  </script>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    
+    
+</body>
+</html>

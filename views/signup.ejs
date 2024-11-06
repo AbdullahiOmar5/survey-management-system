@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form</title>
+    <style>
+        /* Page Background Gradient */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #2a2185, #4b3daf, #6a4f9d, #b63f8a, #f46a8a);
+        }
+
+        .signup-wrapper {
+            display: flex;
+            width: 700px; /* Adjust as needed */
+            height: 500px; /* Adjust as needed */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        /* Left Side Image (Optional) */
+        .image-container {
+            flex: 1;
+            background-color: #f9f9f9; /* Optional background color */
+            overflow: hidden; /* Ensures no overflow if image is larger */
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+
+        /* Right Side Sign-Up Form */
+        .signup-form {
+            flex: 1;
+            padding: 40px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .signup-form h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .signup-form label {
+            font-size: 14px;
+            color: #333;
+            align-self: flex-start; /* Align labels to the start */
+            margin-bottom: px; /* Space below labels */
+        }
+
+        .signup-form input[type="text"],
+        .signup-form input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0 16px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .signup-form button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #2a2185;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .signup-form button:hover {
+            background-color: #1d165e; /* Darker shade for hover */
+        }
+
+        .signin-btn{
+            text-align: left;
+            margin-top: 20px;
+            
+        }
+        .signin-btn:hover{
+            text-decoration: none;
+        }
+
+        
+
+        
+    </style>
+</head>
+<body>
+
+    <div class="signup-wrapper">
+        <!-- Optional Left Side Image -->
+        <div class="image-container">
+            <img src="/imgs/login.png" alt="Welcome Image">
+        </div>
+
+        <!-- Right Side Sign-Up Form -->
+        <div class="signup-form">
+            <h2>Sign Up</h2>
+            
+            <form id="signup_form" action="/signup" method="post">
+                <input type="text" id="name" name="name" placeholder="Your name" required>
+                <input type="text" id="username" name="username" placeholder="Username" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm Password" required>
+
+                <button type="submit">Sign Up</button>
+            </form>
+            <a href="/signin" class="signin-btn">Sign In</a>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#signup_form").submit(function(event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                var formData = {
+                    name: $("#name").val(),
+                    username: $("#username").val(),
+                    password: $("#password").val(),
+                    confirm_password: $("#confirm-password").val(),
+                };
+
+                console.log("the data", formData);
+ 
+                $.ajax({
+                    type: "POST",
+                    url: "/signup",
+                    data: formData,
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success) {
+                            alert("Sign Up successful!");
+                            window.location.href = "/signin"; // Redirect to sign in page
+                        } else {
+                            alert(response.message || "Invalid sign-up credentials.");
+                        }
+                    },
+                    error: function() {
+                        alert("An error occurred. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

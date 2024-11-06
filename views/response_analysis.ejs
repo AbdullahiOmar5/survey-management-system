@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Admin Dashboard | Korsat X Parmaga</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/response.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="/dashboard">
+                        <span class="icon">
+                            <ion-icon name="person-circle-outline"></ion-icon>
+                        </span>
+                        <span class="title system-name">Admin Panel</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/survey_management">
+                        <span class="icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </span>
+                        <span class="title">Survey management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/response_analysis">
+                        <span class="icon">
+                            <ion-icon name="chatbubble-outline"></ion-icon>
+                        </span>
+                        <span class="title">Response Analysis</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/signin">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+                <div class="user">
+                    <img src="/imgs/admin.png" alt="">
+                </div>
+            </div>
+
+            <div class="cardBox">
+                <div class="card">
+                    <div>
+                        <div class="numbers" id="totalSurveys">0</div>
+                        <div class="cardName">Total Surveys</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="numbers" id="totalResponses">0</div>
+                        <div class="cardName">Number Of Responses</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="numbers" id="totalUsers">0</div>
+                        <div class="cardName">Total Users</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="graphBox">
+                <div class="box">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div class="box">
+                    <canvas id="aggregate"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadUserCount() {
+            try {
+                const response = await fetch('/api/user-count');
+                const data = await response.json();
+                document.getElementById("totalUsers").textContent = data.count;
+            } catch (error) {
+                console.error("Error loading user count:", error);
+            }
+        }
+
+        // Call this function when the page loads
+        window.addEventListener('DOMContentLoaded', loadUserCount);
+
+
+        document.addEventListener("DOMContentLoaded", async function () {
+            const totalSurveysElement = document.getElementById("totalSurveys");
+            const totalResponsesElement = document.getElementById("totalResponses");
+            
+
+            async function fetchSurveyStats() {
+                try {
+                    const response = await fetch("/api/survey-stats"); // API Endpoint si loo helo xogta sahanka
+                    if (!response.ok) throw new Error("Error occured while getting the end point");
+                    const data = await response.json();
+                    totalSurveysElement.textContent = data.totalSurveys;
+                    totalResponsesElement.textContent = data.totalResponses;
+                    console.log("Data received from API:", data);
+
+                    
+
+                    // Cusboonaysii chart-ka xogta sahanka cusub
+                    updateCharts(data.totalSurveys, data.totalResponses);
+                } catch (error) {
+                    console.error("Khalad ka dhacay helista xogta:", error);
+                }
+            }
+
+            // Function si loo cusbooneysiiyo chart-ka
+            function updateCharts(totalSurveys, totalResponses) {
+                const ctx = document.getElementById('myChart').getContext('2d');
+                const aggregate = document.getElementById('aggregate').getContext('2d');
+
+                // Polar Area Chart
+                new Chart(ctx, {
+                    type: 'polarArea',
+                    data: {
+                        labels: ['Surveys', 'Responses'],
+                        datasets: [{
+                            label: 'Aggregate Responses',
+                            data: [totalSurveys, totalResponses],
+                            backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+
+                // Bar Chart
+                new Chart(aggregate, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Surveys', 'Responses'],
+                        datasets: [{
+                            label: 'Aggregate Responses',
+                            data: [totalSurveys, totalResponses],
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            fetchSurveyStats(); // Soo qaado xogta marka boggu furo
+        });
+    </script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

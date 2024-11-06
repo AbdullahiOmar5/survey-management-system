@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .survey-item {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .survey-item:hover {
+            background-color: #efeefe;
+            color: black;
+        }
+
+        .survey-item a{
+            text-decoration: none;
+            color: black;
+        }
+        
+        
+
+        
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="/dashboard">
+                        <span class="icon">
+                            <ion-icon name="person-circle-outline"></ion-icon>
+                        </span>
+                        <span class="title system-name">Admin Panel</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/survey_management">
+                        <span class="icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </span>
+                        <span class="title">Survey management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/response_analysis">
+                        <span class="icon">
+                            <ion-icon name="chatbubble-outline"></ion-icon>
+                        </span>
+                        <span class="title">Response Analysis</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/signup">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+                <div class="search">
+                    <label>
+                        <input type="text" id="search-input" placeholder="Search Surveys">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+                <div class="user">
+                    <img src="/imgs/admin.png" alt="">
+                </div>
+            </div>
+
+            <div class="details">
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2>Recent Surveys</h2>
+                        <div class="sort">
+                            <label for="sort-options" class="sort-label">Sort by :</label>
+                            <select id="sort-options">
+                                <option value="name" class="options">Name</option>
+                                <option value="created-date" class="options">Created Date</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="survey-list">
+                        <!-- Surveys will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const surveyListContainer = document.getElementById("survey-list");
+            const sortOptions = document.getElementById("sort-options");
+            const searchInput = document.getElementById("search-input");
+            const surveyTitle = document.querySelector('.survey-title')
+
+            // Function to fetch surveys based on sort option and search term
+            async function fetchSurveys(sortBy = "name", searchTerm = "") {
+                try {
+                    const response = await fetch(`/api/surveys?sort=${sortBy}&search=${searchTerm}`);
+                    if (!response.ok) throw new Error("Failed to fetch surveys");
+
+                    const surveys = await response.json();
+                    displaySurveys(surveys);
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            }
+
+            // Function to display surveys in the list
+            function displaySurveys(surveys) {
+                surveyListContainer.innerHTML = ""; // Clear existing content
+
+                surveys.forEach(survey => {
+                    const surveyItem = document.createElement("div");
+                    surveyItem.classList.add("survey-item");
+                    // surveyItem.innerHTML = `<div class="survey-title">${survey.title}</div>`;
+                    surveyListContainer.appendChild(surveyItem);
+
+                    // Create a link for each survey item
+                    const alink = document.createElement('a');
+                    alink.href =`/survey-description/${survey._id}`;
+                    alink.innerText = survey.title;
+                    
+                    surveyItem.appendChild(alink);
+                    surveyListContainer.appendChild(surveyItem);
+                });
+            }
+
+            // add survey item to the link that will direct survey report
+            
+            // const alink = document.createElement('a');
+            // alink.href = `#`;
+            // alink.appendChild(surveyTitle);
+            // survey-item.appendChild(alink);
+
+
+            // Event listener for sort options change
+            sortOptions.addEventListener("change", function () {
+                const sortBy = sortOptions.value;
+                const searchTerm = searchInput.value;
+                fetchSurveys(sortBy, searchTerm); // Re-fetch surveys based on selected sort option and search term
+            });
+
+            // Event listener for search input change
+            searchInput.addEventListener("input", function () {
+                const searchTerm = searchInput.value;
+                const sortBy = sortOptions.value;
+                fetchSurveys(sortBy, searchTerm); // Re-fetch surveys based on search term and selected sort option
+            });
+
+            fetchSurveys(); // Fetch surveys when the page loads
+        });
+    </script>
+    <script>
+        // add hovered class to selected list item
+        let list = document.querySelectorAll(".navigation li");
+            
+        function activeLink() {
+        list.forEach((item) => {
+            item.classList.remove("hovered");
+        });
+        this.classList.add("hovered");
+        }
+        
+        list.forEach((item) => item.addEventListener("mouseover", activeLink));
+        
+        // Menu Toggle
+        let toggle = document.querySelector(".toggle");
+        let navigation = document.querySelector(".navigation");
+        let main = document.querySelector(".main");
+        
+        toggle.onclick = function () {
+        navigation.classList.toggle("active");
+        main.classList.toggle("active");
+        };
+    </script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
